@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="lib/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/angular.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div ng-app="MyApp">
+			<div ng-controller="ctrl">
+				每页显示的个数
+				<select ng-model="num"  ng-change="changeNum()">
+					<option value="2">2</option>
+					<option value="4">4</option>
+					<option value="6">6</option>
+					<option value="8">8</option>
+				</select>
+				显示的页数
+				<button ng-repeat="item in arr" ng-click="changepage(item)">第{{item+1}}页</button>
+				<ul>
+					<li ng-repeat="item in movelist | limitTo:num:page*num">
+						<p>{{item.title}}</p>
+						<img ng-src="{{item.images.small}}" />
+					</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+	<script>
+		var app = angular.module("MyApp",[]);
+		app.controller("ctrl",function($scope){
+			$scope.num = "2";
+			$scope.arr = [];
+			$scope.page = 0;
+			$scope.len = 0;
+			$scope.movelist = [];
+			$.ajax({
+				type:"get",
+				url:"http://localhost:8000",
+				success:function(respons){
+					console.log(JSON.parse(respons))
+					var data = JSON.parse(respons)
+					$scope.movelist = data.subjects
+					console.log($scope.movelist)
+					$scope.len = data.count;
+					console.log($scope.len)
+					$scope.$apply()
+				}
+			});
+			$scope.test = function(){
+				var arr = [];
+				var n = Math.ceil($scope.len/$scope.num)
+				for(var i = 0; i<n; i++){
+					arr.push(i)
+				}
+				$scope.arr = arr
+				
+			};
+			$scope.test();
+			$scope.changeNum = function(){
+				$scope.test();
+			};
+			$scope.changepage = function(item){
+				$scope.page = item
+			}
+		})
+	</script>
+</html>

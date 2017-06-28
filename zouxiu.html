@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="lib/dist/css/bootstrap.min.css"/>
+		<script src="lib/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>	
+		<script src="lib/dist/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/angular.min.js" type="text/javascript" charset="utf-8"></script>
+		<style>
+			.list-group{
+				width:30%;
+				height:auto;
+				float:left;
+			}
+			.media{
+				width:70%;
+				height:auto;
+				float:right;
+			}
+			.media-left{
+				width:50%;
+				height:200px;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<div ng-app="myapp">
+			<div ng-controller="ctrl">
+				<ul class="list-group">
+				  <li class="list-group-item" ng-repeat="item in list" ng-click="getData(item.classID)">{{item.className}}</li>
+				</ul>
+				
+				<div class="media">
+				  <div class="media-left media-middle" ng-repeat="item in goodslist">
+				     <img class="media-object" ng-src="{{item.goodsListImg}}">
+				      <p>{{item.goodsName}}</p>
+				      <p>{{item.price}}</p>
+				    
+				  </div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		var app = angular.module("myapp",[]);
+		app.controller("ctrl",function($scope){
+			$scope.list = [];
+			$scope.goodslist = [];
+			$.ajax({
+				type:"get",
+				url:"http://datainfo.duapp.com/shopdata/getclass.php",
+				success:function(data){
+					var data = JSON.parse(data)
+					console.log(data)
+					$scope.list = data
+					$scope.$apply();
+				}
+			});
+			$scope.getData = function(id){
+				$.ajax({
+					type:"get",
+					url:"http://datainfo.duapp.com/shopdata/getGoods.php?callback=",
+					data:{
+						classID:id
+					},
+					dataType:"Jsonp",
+					success:function(data){
+						
+						$scope.goodslist = data
+						console.log($scope.goodslist)
+					}
+				});
+			}
+		})
+	</script>
+</html>
