@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="lib/angular.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/angular-ui-router.min.js" type="text/javascript" charset="utf-8"></script>
+		
+		<!--<script src="lib/angular.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/angular-ui-router.min.js" type="text/javascript" charset="utf-8"></script>-->
+		<link href="less/main.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<header></header>
+		<div id="content">
+			 <ui-view></ui-view>
+		</div>
+		<footer>
+			<ul>
+				<li><a ui-sref="home" ui-sref-active="active">首页</a></li>
+				<li><a ui-sref="kind" ui-sref-active="active">分类</a></li>
+				<li><a ui-sref="cart" ui-sref-active="active">购物车</a></li>
+				<li><a ui-sref="user" ui-sref-active="active">我的</a></li>
+			</ul>
+		</footer>
+	</body>
+	<script>
+		var app = angular.module("myApp",["ui.router"])
+		
+		app.config(function($stateProvider) {
+		$stateProvider
+			.state(
+			    'home',{
+			    url: '/home',
+			    template: '<h3>首页</h3>'
+			 })
+			.state(
+			    'kind',{
+			    url: '/kind',
+			    template: '<h3>分类</h3>'
+			 })
+			 .state(
+			   'cart',{
+			    url: '/cart',
+			    template: '<h3>购物车</h3>'
+			 })
+			
+			.state(
+			     'user',{
+			    url: '/user',
+			    template: '<h3>个人中心</h3>'
+			  })
+		});
+	</script>
+</html>

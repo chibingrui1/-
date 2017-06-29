@@ -1,0 +1,3 @@
+<script src="lib/angular.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="lib/angular-ui-router.min.js" type="text/javascript" charset="utf-8"></script>
+这两个的引入顺序必须一前一后
