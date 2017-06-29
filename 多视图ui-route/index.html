@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />	
+		<title></title>
+		<script src="lib/angular.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/angular-route.min.js"></script>
+		<script src="lib/angular-ui-router.min.js" type="text/javascript" charset="utf-8"></script>
+		<link href="less/main.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body ng-controller = "ctrl">
+		<header id="header">
+			<ui-view name="header"></ui-view>
+		</header>
+		<div id="content">
+			<ui-view name="content"></ui-view>
+		</div>
+		<footer id="footer">
+			<ul>
+				<li ><a ui-sref="home" ui-sref-active="active">首页</a></li>
+				<li ><a ui-sref="kind" ui-sref-active="active">分类</a></li>
+				<li ><a ui-sref="cart" ui-sref-active="active">购物车</a></li>
+				<li ><a ui-sref="user" ui-sref-active="active">我的</a></li>
+			</ul>
+		</footer>
+	</body>
+	<script>
+		var app = angular.module("myApp",["ui.router"])
+		
+		app.component("homeheader",{
+			
+			template:"shouyetoubu",
+			controller:function(){
+				
+			}
+		})
+		app.component("homecontent",{
+			
+			template:"shouyeneirong",
+			controller:function(){
+				
+			}
+		})
+		app.component("kindheader",{
+			
+			template:"kindtoubu",
+			controller:function(){
+				
+			}
+		})
+		app.component("kindcontent",{
+			
+			template:"kindneirong",
+			controller:function(){
+				
+			}
+		})
+		app.component("cartheader",{
+			
+			template:"carttoubu",
+			controller:function(){
+				
+			}
+		})
+		app.component("cartcontent",{
+			
+			template:"cartneirong",
+			controller:function(){
+				
+			}
+		})
+		app.component("userheader",{
+			
+			template:"usertoubu",
+			controller:function(){
+				
+			}
+		})
+		app.component("usercontent",{
+			
+			template:"userneirong",
+			controller:function(){
+				
+			}
+		})
+		
+		app.config(function($stateProvider) {
+		$stateProvider
+			.state(
+			    'home',{
+			    url: '/home',
+			    views:{
+			    	header:"homeheader",
+			    	content:"homecontent",
+			    }
+			 })
+			.state(
+			    'kind',{
+			    url: '/kind',
+			    views:{
+			    	header:"kindheader",
+			    	content:"kindcontent",
+			    }
+			 })
+			.state(
+			    'cart',{
+			    url: '/cart',
+			    views:{
+			    	header:"cartheader",
+			    	content:"cartcontent",
+			    }
+			 })
+			 .state(
+			    'user',{
+			    url: '/user',
+			    views:{
+			    	header:"userheader",
+			    	content:"usercontent",
+			    }
+			 })
+		});
+		
+		app.controller("ctrl",["$scope",function(){
+			
+		}])
+	</script>
+</html>

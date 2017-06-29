@@ -1,0 +1,9 @@
+<div>
+	<ul>
+		<li ng-repeat="item in $ctrl.list" ng-click="$ctrl.changekind(item.classID,item.className)">{{item.className}}</li>
+	</ul>
+	
+		<div ui-view></div>
+	
+</div>
+
