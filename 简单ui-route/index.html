@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />	
+		<title></title>
+		<script src="lib/angular.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/angular-route.min.js"></script>
+		<script src="lib/angular-ui-router.min.js" type="text/javascript" charset="utf-8"></script>
+		<link href="less/main.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body ng-controller="ctrl">
+		<header></header>
+		<div id="content">
+			 <ui-view></ui-view>
+		</div>
+		<footer>
+			<ul>
+				<li><a ui-sref="home" ui-sref-active="active">首页</a></li>
+				<li><a ui-sref="kind" ui-sref-active="active">分类</a></li>
+				<li><a ui-sref="cart" ui-sref-active="active">购物车</a></li>
+				<li><a ui-sref="user" ui-sref-active="active">我的</a></li>
+			</ul>
+		</footer>
+	</body>
+	<script>
+		var app = angular.module("myApp",["ui.router"])
+		
+		app.component("kind",{
+		    templateUrl:"view/Kind.html",
+			controller:function($http,$state){
+				var that = this
+				this.list = [];
+				$http.get("http://datainfo.duapp.com/shopdata/getclass.php").then(function(response){
+					console.log(response)
+					that.list = response.data
+				})
+				
+				this.changekind=function(classID,className){
+					console.log(classID)
+					console.log(className)
+					$state.go("kind.list",{pro:{classID:classID,className:className}})
+					
+					
+				}
+			}
+		})
+		app.component("pro",{
+			templateUrl:"view/KindList.html",
+			controller:function($stateParams,$http){
+				console.log("1111")
+				var that = this;
+				console.log($stateParams.pro)
+				this.className = $stateParams.pro.className
+				var classID = $stateParams.pro.classID
+				$http.get("http://datainfo.duapp.com/shopdata/getGoods.php?classID="+classID+"&callback=").then(function(response){
+					console.log(eval(response.data));
+					that.prolist = eval(response.data);
+				})
+			}
+		})
+		app.config(function($stateProvider) {
+		$stateProvider
+			.state(
+			    'home',{
+			    url: '/home',
+			    template: '<h3>首页</h3>'
+			 })
+			.state(
+			    'kind',{
+			     url: '/kind',
+			     component:"kind"
+			//  template: '<h3>分类</h3>'
+			 })
+			.state(
+				"kind.list",{
+				url:"/list",
+				component:"pro",
+				params:{
+					pro:{}
+				}
+			})
+			 .state(
+			   'cart',{
+			    url: '/cart',
+			    template: '<h3>购物车</h3>'
+			 })
+			
+			.state(
+			     'user',{
+			    url: '/user',
+			    template: '<h3>个人中心</h3>'
+			  })
+		});
+		
+		app.controller("ctrl",["$scope",function(){
+			
+		}])
+	</script>
+</html>
